@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>react 生命周期</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <script type="text/babel">
+        const HelloReact = {
+            getDefaultProps: function() {
+                console.log('1- getDafaultProps 设置默认的props属性');
+                return {
+                    name: 'june',
+                    age: 18
+                }
+            },
+            getInitialState: function() {
+                console.log('2- getInitialState 设置状态机, 既初始化state对象');
+                return ({
+                    count: 0
+                });
+            },
+            componentWillMount: function() {
+                console.log('3- componentWillMount 组件出现之前');
+            },
+            addCount: fcuntion() {
+                this.setState({
+                    count: this.state.count++
+                });
+            },
+            render: function() {
+                console.log('4- render 渲染');
+                return (
+                    <div>
+                        <p>姓名: {this.props.name}</p>
+                        <p>年纪: {this.props.age}</p>
+                        <p><button onClick={this.addCount}>点击数字加一</button></p>
+                    </div>
+                )
+            },
+            componentDidMount: function() {
+                console.log('5- componentDidMount 组件出现后');
+            }
+        }
+        ReactDOM.render(
+            <HelloReact/>,
+            document.querySelector('#app'),
+            function() {
+                console.log('6- 整个组件渲染完成');
+            }
+        )
+        
+    </script>
+</body>
+</html>

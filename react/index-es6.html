@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>react 生命周期（es6）</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <script type="text/babel">
+    class HelloReact extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state = {count: 0};
+            this.addCount = this.addCount.bind(this);
+        }
+        static defaultProps = {
+            name: 'june',
+            age: 18
+        }
+      
+        addCount() {
+            this.setState({
+                count: this.state.count + 1
+            });
+        }
+
+        componentWillMount() {
+            console.log('3- componentWillMount 组件出现之前');
+        }
+
+        render() {
+            console.log('4- render 渲染');
+            return (
+                <div>
+                    <p>姓名: {this.props.name}</p>
+                    <p>年纪: {this.props.age}</p>
+                    <p>当前数字: {this.state.count}</p>
+                    <p><button onClick={this.addCount} >点击数字加1</button></p>
+                </div>
+            )
+        }
+        componentDidMount() {
+            console.log('5- componentDidMount 组件出现后');
+        }
+    }
+    ReactDOM.render(
+        <HelloReact name='jiosers'/>,
+        document.querySelector('#app'),
+        function() {
+            console.log('6- 整个组件渲染完成');
+        }
+    )
+    </script>
+</body>
+</html>
