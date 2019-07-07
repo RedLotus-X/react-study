@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>运行时周期以及销毁</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <script type="text/babel">
+    const hobbys = ['篮球', '羽毛球', '唱歌', '看书', '爬山', '跑步'];
+    
+    class Hobby extends React.Component {
+        constructor(props) {
+            super(props);
+        }
+
+        getValue() {
+            console.log(`当前值是${this.props.name}`);
+        }
+
+        render() {
+            return (
+                <li>{this.props.name}</li>
+            )
+        }
+    }
+
+    class Count extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                show: true
+            }
+        }
+
+        componentWillReceiveProps(nextProps) {
+            console.log(nextProps,' 可用着数据检查');
+        }
+
+        render() {
+            return (
+                <span> {this.props.count}</span>
+            )
+        }
+    }
+
+    class Btn extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                show: true
+            }
+        }
+
+        componentWillReceiveProps() {
+            this.setState({
+                show: false
+            })
+        }
+
+
+        render() {
+            if(this.state.show) {
+                return (
+                    <button onClick={this.props.addCount} >点击数字加1</button>
+                )
+            } else {
+                return (
+                    <span> 已经计算 </span>
+                )
+            }
+        }
+
+    }
+    class HelloReact extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state = {
+                count: 0,
+                hobbys: hobbys
+            };
+            this.addCount = this.addCount.bind(this);
+        }
+        static defaultProps = {
+            name: 'june',
+            age: 18
+        }
+      
+        addCount() {
+            this.setState({
+                count: this.state.count + 1
+            });
+            //ReactDOM.unmountComponentAtNode(document.querySelector('#app'));
+        }
+
+        componentWillMount() {
+            console.log('3- componentWillMount 组件出现之前');
+        }
+
+        componentWillUnmount() {
+            console.log('组件被销毁');
+        }
+
+        // 
+        shouldComponentUpdate(nextProps, nextState) {
+            console.log(nextProps);
+            console.log(nextState);
+            console.log('运行时的状态-1');
+            return true;
+        }
+
+        componentWillUpdate() {
+            console.log('运行中 -2');
+        }
+
+        componentDidUpdate() {
+            console.log('更新完成 -3');
+        }
+
+        render() {
+            console.log('4- render 渲染');
+            return (
+                <div>
+                    <p>姓名: {this.props.name}</p>
+                    <p>年纪: {this.props.age}</p>
+                    <p>当前数字: <Count count={this.state.count}/></p>
+                    <p><Btn addCount={this.addCount} /></p>
+                    <span>爱好</span>
+                    <ul>
+                        {
+                            this.state.hobbys.map((item, index) => {
+                                return(
+                                    <Hobby ref='hobby' key={index} name={item} />
+                                )
+                            })
+                        }
+                    </ul>
+                    <button onClick={this.getItemValue.bind(this)} >打印最后一个爱好</button>
+                </div>
+            )
+        }
+
+        componentDidMount() {
+            console.log('5- componentDidMount 组件出现后');
+        }
+
+        getItemValue() {
+            this.refs.hobby.getValue();
+        }
+    }
+
+    ReactDOM.render(
+        <HelloReact name='jiosers'/>,
+        document.querySelector('#app'),
+        function() {
+            console.log('6- 整个组件渲染完成');
+        }
+    )
+    </script>
+</body>
+</html>
