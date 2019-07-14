@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <script type="text/babel">
+    class HelloReact extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                name: '请输入',
+                sex: 0,
+                checkBoxOptions: [
+                    {
+                        text: '羽毛球',
+                        value: '1',
+                        checked: true
+                    },
+                    {
+                        text: '篮球',
+                        value: '2',
+                        checked: false
+                    },
+                    {
+                        text: '足球',
+                        value: '3',
+                        checked: false
+                    }
+                ],
+                education: 0
+            }
+        }
+
+        render() {
+            return(
+                <div>
+                    <p><span>姓名：</span><input  defaultValue = {this.state.name} /></p>
+                    <p>
+                        <span>性别：</span>
+                        <input type='radio' name='sex' value='1' defaultChecked = {this.state.sex === 1 ? true : false} />man
+                        <input type='radio' name='sex' value='0' defaultChecked = {this.state.sex === 0 ? true : false} />woman
+                    </p>
+                    <p>
+                        <span>爱好：</span>
+                        {this.state.checkBoxOptions.map((item, index) => {
+                            return(
+                                <span key={index}>
+                                    <input type='checkbox' value={item.value} name={item.value} defaultChecked = {item.checked}/>{item.text}
+                                </span>
+                            )
+                        })}
+                    </p>
+                    <p>
+                        <span>学历</span>
+                        <select name='education' ref='education' value={this.state.education}>
+                            <option value='0'>大专</option>
+                            <option value='1'>本科</option>
+                            <option value='3'>硕士</option>
+                            <option value='4'>博士</option>
+                        </select>
+                    </p>
+                </div>
+            )
+        }
+        
+    }
+
+    ReactDOM.render(
+        <HelloReact name='jiosers'/>,
+        document.querySelector('#app')
+    )
+    </script>
+</body>
+</html>
